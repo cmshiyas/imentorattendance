@@ -1,0 +1,7 @@
+{
+  "name": "iMentor Attendance",
+  "short_name": "iMentor Attendance",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}
