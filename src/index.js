@@ -276,7 +276,7 @@ function deleteMessage(id) {
   }
 }
 
-function createAndInsertMessage(id, timestamp) {
+function createAndInsertMessage(id, timestamp, text) {
   const container = document.createElement("div");
   const row = document.createElement("tr");
   container.appendChild(row);
@@ -289,6 +289,7 @@ function createAndInsertMessage(id, timestamp) {
   // https://stackoverflow.com/a/47781432/4816918
   timestamp = timestamp ? timestamp.toMillis() : Date.now();
   div.setAttribute("timestamp", timestamp);
+  div.setAttribute("class", text.replace(/\s/g, "").toLowerCase());
 
   // figure out where to insert new message
   if (messageTable) {
@@ -324,7 +325,7 @@ function createAndInsertMessage(id, timestamp) {
 // Displays a Message in the UI.
 function displayMessage(id, timestamp, name, text, rollno, picUrl, imageUrl) {
   var div =
-    document.getElementById(id) || createAndInsertMessage(id, timestamp);
+    document.getElementById(id) || createAndInsertMessage(id, timestamp, text);
 
   // profile picture
   if (picUrl) {
@@ -373,6 +374,43 @@ function toggleButton() {
   }
 }
 
+// function to hid rows
+function toggle(className, displayState) {
+  var elements = document.getElementsByClassName(className);
+
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].style.display = displayState;
+  }
+}
+
+function displayMaths() {
+  toggle("datastructure", "none");
+  toggle("html", "none");
+  toggle("abc", "none");
+  toggle("maths", "contents");
+}
+
+function displayds() {
+  toggle("datastructure", "contents");
+  toggle("maths", "none");
+  toggle("html", "none");
+  toggle("abc", "none");
+}
+
+function displayhtml() {
+  toggle("maths", "none");
+  toggle("datastructure", "none");
+  toggle("abc", "none");
+  toggle("html", "contents");
+}
+
+function displayabc() {
+  toggle("maths", "none");
+  toggle("datastructure", "none");
+  toggle("abc", "contents");
+  toggle("html", "none");
+}
+
 // Shortcuts to DOM Elements.
 var messageListElement = document.getElementById("messages");
 var messageTable = document.getElementById("message-table");
@@ -389,6 +427,19 @@ var userNameElement = document.getElementById("user-name");
 var signInButtonElement = document.getElementById("sign-in");
 var signOutButtonElement = document.getElementById("sign-out");
 var signInSnackbarElement = document.getElementById("must-signin-snackbar");
+var gerURL = window.location.href;
+
+if (gerURL.indexOf("attendance") > 0) {
+  var mathsSubjectTab = document.getElementById("maths");
+  var dsSubjectTab = document.getElementById("datastructure");
+  var htmlSubjectTab = document.getElementById("html");
+  var abcSubjectTab = document.getElementById("abc");
+
+  mathsSubjectTab.addEventListener("click", displayMaths);
+  dsSubjectTab.addEventListener("click", displayds);
+  htmlSubjectTab.addEventListener("click", displayhtml);
+  abcSubjectTab.addEventListener("click", displayabc);
+}
 
 // Saves message on form submit.
 if (messageFormElement) {
