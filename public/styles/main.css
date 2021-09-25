@@ -247,6 +247,7 @@ main,
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+  background-color: #0288d1;
 }
 
 /* Change the color of links on hover */
@@ -257,8 +258,8 @@ main,
 
 /* Add a color to the active/current link */
 .topfilternav a.active {
-  background-color: #04aa6d;
-  color: white;
+  background-color: white;
+  color: #0288d1;
 }
 
 /*table css */

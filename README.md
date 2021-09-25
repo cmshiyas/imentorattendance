@@ -8,3 +8,4 @@ If you'd like to jump directly to the end and see the finished code head to the 
 > run command - npm install
 > to run locally run command - firebase serve --only hosting
 > to generate webpack run command - npm start
+> to deploy - firebase deploy --except functions
