@@ -102,8 +102,8 @@ function loadMessages() {
   // Create the query to load the last 12 messages and listen for new ones.
   const recentMessagesQuery = query(
     collection(getFirestore(), "attendance"),
-    orderBy("timestamp", "desc"),
-    limit(12)
+    orderBy("timestamp", "desc")
+    // limit(12)
   );
 
   // Start listening to the query.
