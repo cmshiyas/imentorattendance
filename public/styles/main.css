@@ -50,8 +50,8 @@ main,
 .mdl-card__supporting-text {
   width: auto;
   height: 100%;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding-top: 10;
+  padding-bottom: 10;
 }
 #messages {
   overflow-y: auto;
@@ -77,6 +77,11 @@ main,
 .message-container.visible {
   opacity: 1;
 }
+
+.message-container.hide {
+  display: none;
+}
+
 .message-container .pic {
   background-image: url("/images/profile_placeholder.png");
   background-repeat: no-repeat;
@@ -104,8 +109,8 @@ main,
   box-sizing: border-box;
 }
 #message-form {
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  flex-direction: row;
   width: calc(100% - 48px);
   float: left;
 }
@@ -229,6 +234,29 @@ main,
 
 /* Add a color to the active/current link */
 .topnav a.active {
+  background-color: #04aa6d;
+  color: white;
+}
+
+/* Style the filters */
+/* Style the links inside the navigation bar */
+.topfilternav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topfilternav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topfilternav a.active {
   background-color: #04aa6d;
   color: white;
 }

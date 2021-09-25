@@ -175,12 +175,13 @@ function onMessageFormSubmit(e) {
   // Check that the user entered a message and is signed in.
   if (messageInputElement.value && checkSignedInWithMessage()) {
     const formData = {
-      subject: messageInputElement.value,
+      subject:
+        messageInputElement.options[messageInputElement.selectedIndex].value,
       rollno: rollnoInputElement.value,
     };
     saveMessage(formData).then(function () {
       // Clear message text field and re-enable the SEND button.
-      resetMaterialTextfield(messageInputElement);
+      resetDropDownfield(messageInputElement);
       resetMaterialTextfield(rollnoInputElement);
 
       toggleButton();
@@ -243,6 +244,11 @@ function checkSignedInWithMessage() {
 function resetMaterialTextfield(element) {
   element.value = "";
   element.parentNode.MaterialTextfield.boundUpdateClassesHandler();
+}
+
+function resetDropDownfield(element) {
+  element.value = "";
+  // element.parentNode.MaterialTextfield.boundUpdateClassesHandler();
 }
 
 // Template for messages.
@@ -367,7 +373,7 @@ function displayMessage(id, timestamp, name, text, rollno, picUrl, imageUrl) {
 // Enables or disables the submit button depending on the values of the input
 // fields.
 function toggleButton() {
-  if (messageInputElement.value) {
+  if (messageInputElement) {
     submitButtonElement.removeAttribute("disabled");
   } else {
     submitButtonElement.setAttribute("disabled", "true");
@@ -387,11 +393,11 @@ function displayMaths() {
   toggle("datastructure", "none");
   toggle("html", "none");
   toggle("abc", "none");
-  toggle("maths", "contents");
+  toggle("maths", "block");
 }
 
 function displayds() {
-  toggle("datastructure", "contents");
+  toggle("datastructure", "block");
   toggle("maths", "none");
   toggle("html", "none");
   toggle("abc", "none");
@@ -401,13 +407,13 @@ function displayhtml() {
   toggle("maths", "none");
   toggle("datastructure", "none");
   toggle("abc", "none");
-  toggle("html", "contents");
+  toggle("html", "block");
 }
 
 function displayabc() {
   toggle("maths", "none");
   toggle("datastructure", "none");
-  toggle("abc", "contents");
+  toggle("abc", "block");
   toggle("html", "none");
 }
 
@@ -450,7 +456,6 @@ signInButtonElement.addEventListener("click", signIn);
 
 // Toggle for the button.
 if (messageInputElement) {
-  messageInputElement.addEventListener("keyup", toggleButton);
   messageInputElement.addEventListener("change", toggleButton);
 }
 
