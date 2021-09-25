@@ -427,9 +427,9 @@ var userNameElement = document.getElementById("user-name");
 var signInButtonElement = document.getElementById("sign-in");
 var signOutButtonElement = document.getElementById("sign-out");
 var signInSnackbarElement = document.getElementById("must-signin-snackbar");
-var gerURL = window.location.href;
+var getURL = window.location.href;
 
-if (gerURL.indexOf("attendance") > 0) {
+if (getURL.indexOf("/attendance") > 0) {
   var mathsSubjectTab = document.getElementById("maths");
   var dsSubjectTab = document.getElementById("datastructure");
   var htmlSubjectTab = document.getElementById("html");
