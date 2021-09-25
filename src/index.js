@@ -395,9 +395,21 @@ function makeActive(navElement) {
 function removeActive(navElement) {
   navElement.classList.remove("active");
 }
+function displayAll() {
+  removeActive(mathsSubjectTab);
+  removeActive(allSubjectTab);
+  makeActive(dsSubjectTab);
+  removeActive(htmlSubjectTab);
+  removeActive(abcSubjectTab);
+  toggle("maths", "block");
+  toggle("datastructure", "block");
+  toggle("html", "block");
+  toggle("abc", "block");
+}
 
 function displayMaths() {
   makeActive(mathsSubjectTab);
+  removeActive(allSubjectTab);
   removeActive(dsSubjectTab);
   removeActive(htmlSubjectTab);
   removeActive(abcSubjectTab);
@@ -410,6 +422,8 @@ function displayMaths() {
 
 function displayds() {
   removeActive(mathsSubjectTab);
+  removeActive(allSubjectTab);
+
   makeActive(dsSubjectTab);
   removeActive(htmlSubjectTab);
   removeActive(abcSubjectTab);
@@ -422,6 +436,8 @@ function displayds() {
 
 function displayhtml() {
   removeActive(mathsSubjectTab);
+  removeActive(allSubjectTab);
+
   removeActive(dsSubjectTab);
   makeActive(htmlSubjectTab);
   removeActive(abcSubjectTab);
@@ -434,6 +450,8 @@ function displayhtml() {
 
 function displayabc() {
   removeActive(mathsSubjectTab);
+  removeActive(allSubjectTab);
+
   removeActive(dsSubjectTab);
   removeActive(htmlSubjectTab);
   makeActive(abcSubjectTab);
@@ -463,11 +481,13 @@ var signInSnackbarElement = document.getElementById("must-signin-snackbar");
 var getURL = window.location.href;
 
 if (getURL.indexOf("/attendance") > 0) {
+  var allSubjectTab = document.getElementById("allsubjects");
   var mathsSubjectTab = document.getElementById("maths");
   var dsSubjectTab = document.getElementById("datastructure");
   var htmlSubjectTab = document.getElementById("html");
   var abcSubjectTab = document.getElementById("abc");
 
+  allSubjectTab.addEventListener("click", displayAll);
   mathsSubjectTab.addEventListener("click", displayMaths);
   dsSubjectTab.addEventListener("click", displayds);
   htmlSubjectTab.addEventListener("click", displayhtml);
