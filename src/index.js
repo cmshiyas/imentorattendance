@@ -84,9 +84,10 @@ function isUserSignedIn() {
 async function saveMessage(messageText) {
   // Add a new message entry to the Firebase database.
   try {
-    await addDoc(collection(getFirestore(), "messages"), {
+    await addDoc(collection(getFirestore(), "attendance"), {
       name: getUserName(),
-      text: messageText,
+      text: messageText.subject,
+      rollno: messageText.rollno,
       profilePicUrl: getProfilePicUrl(),
       timestamp: serverTimestamp(),
     });
@@ -100,7 +101,7 @@ async function saveMessage(messageText) {
 function loadMessages() {
   // Create the query to load the last 12 messages and listen for new ones.
   const recentMessagesQuery = query(
-    collection(getFirestore(), "messages"),
+    collection(getFirestore(), "attendance"),
     orderBy("timestamp", "desc"),
     limit(12)
   );
@@ -119,6 +120,7 @@ function loadMessages() {
             message.timestamp,
             message.name,
             message.text,
+            message.rollno,
             message.profilePicUrl,
             message.imageUrl
           );
@@ -172,7 +174,11 @@ function onMessageFormSubmit(e) {
   e.preventDefault();
   // Check that the user entered a message and is signed in.
   if (messageInputElement.value && checkSignedInWithMessage()) {
-    saveMessage(messageInputElement.value).then(function () {
+    const formData = {
+      subject: messageInputElement.value,
+      rollno: rollnoInputElement.value,
+    };
+    saveMessage(formData).then(function () {
       // Clear message text field and re-enable the SEND button.
       resetMaterialTextfield(messageInputElement);
       resetMaterialTextfield(rollnoInputElement);
@@ -249,7 +255,7 @@ var MESSAGE_TEMPLATE =
 ("</div>");
 
 var MESSAGE_TEMPLATE_NEW =
-  '<tr><td class="pic" class="spacing"></td><td class="name"></td><td class="message"></td><td class="recordtime"></td></tr>';
+  '<tr><td class="pic" class="spacing"></td><td class="name"></td><td class="rollno"></td><td class="message"></td><td class="recordtime"></td></tr>';
 // Adds a size to Google Profile pics URLs.
 function addSizeToGoogleProfilePic(url) {
   if (url.indexOf("googleusercontent.com") !== -1 && url.indexOf("?") === -1) {
@@ -272,10 +278,11 @@ function deleteMessage(id) {
 
 function createAndInsertMessage(id, timestamp) {
   const container = document.createElement("div");
-  const table = document.createElement("table");
-  container.appendChild(table);
-  table.innerHTML = MESSAGE_TEMPLATE_NEW;
-  const div = container.firstChild.firstChild.firstChild;
+  const row = document.createElement("tr");
+  container.appendChild(row);
+
+  row.innerHTML = MESSAGE_TEMPLATE_NEW;
+  const div = container.firstChild;
   div.setAttribute("id", id);
 
   // If timestamp is null, assume we've gotten a brand new message.
@@ -286,10 +293,10 @@ function createAndInsertMessage(id, timestamp) {
   // figure out where to insert new message
   if (messageTable) {
     const existingMessages = messageTable.children;
-    if (existingMessages.length === 0) {
+    if (existingMessages.length === 1) {
       messageTable.appendChild(div);
     } else {
-      let messageListNode = existingMessages[0];
+      let messageListNode = existingMessages[1];
 
       while (messageListNode) {
         const messageListNodeTime = messageListNode.getAttribute("timestamp");
@@ -315,7 +322,7 @@ function createAndInsertMessage(id, timestamp) {
 }
 
 // Displays a Message in the UI.
-function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
+function displayMessage(id, timestamp, name, text, rollno, picUrl, imageUrl) {
   var div =
     document.getElementById(id) || createAndInsertMessage(id, timestamp);
 
@@ -328,6 +335,8 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
   var date = new Date(timestamp.toMillis());
 
   div.querySelector(".name").textContent = name;
+  div.querySelector(".rollno").textContent = rollno;
+
   div.querySelector(".recordtime").textContent = date.toLocaleString();
 
   var messageElement = div.querySelector(".message");
