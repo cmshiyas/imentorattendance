@@ -325,10 +325,10 @@ function displayMessage(id, timestamp, name, text, picUrl, imageUrl) {
       "url(" + addSizeToGoogleProfilePic(picUrl) + ")";
   }
 
+  var date = new Date(timestamp.toMillis());
+
   div.querySelector(".name").textContent = name;
-  div.querySelector(".recordtime").textContent = Date(
-    timestamp.toMillis()
-  ).toLocaleString();
+  div.querySelector(".recordtime").textContent = date.toLocaleString();
 
   var messageElement = div.querySelector(".message");
 
