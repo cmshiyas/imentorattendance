@@ -102,7 +102,7 @@ function loadMessages() {
   // Create the query to load the last 12 messages and listen for new ones.
   const recentMessagesQuery = query(
     collection(getFirestore(), "attendance"),
-    orderBy("timestamp", "desc")
+    orderBy("timestamp", "asc")
     // limit(12)
   );
 
@@ -389,7 +389,19 @@ function toggle(className, displayState) {
   }
 }
 
+function makeActive(navElement) {
+  navElement.classList.add("active");
+}
+function removeActive(navElement) {
+  navElement.classList.remove("active");
+}
+
 function displayMaths() {
+  makeActive(mathsSubjectTab);
+  removeActive(dsSubjectTab);
+  removeActive(htmlSubjectTab);
+  removeActive(abcSubjectTab);
+
   toggle("datastructure", "none");
   toggle("html", "none");
   toggle("abc", "none");
@@ -397,6 +409,11 @@ function displayMaths() {
 }
 
 function displayds() {
+  removeActive(mathsSubjectTab);
+  makeActive(dsSubjectTab);
+  removeActive(htmlSubjectTab);
+  removeActive(abcSubjectTab);
+
   toggle("datastructure", "block");
   toggle("maths", "none");
   toggle("html", "none");
@@ -404,6 +421,11 @@ function displayds() {
 }
 
 function displayhtml() {
+  removeActive(mathsSubjectTab);
+  removeActive(dsSubjectTab);
+  makeActive(htmlSubjectTab);
+  removeActive(abcSubjectTab);
+
   toggle("maths", "none");
   toggle("datastructure", "none");
   toggle("abc", "none");
@@ -411,6 +433,11 @@ function displayhtml() {
 }
 
 function displayabc() {
+  removeActive(mathsSubjectTab);
+  removeActive(dsSubjectTab);
+  removeActive(htmlSubjectTab);
+  makeActive(abcSubjectTab);
+
   toggle("maths", "none");
   toggle("datastructure", "none");
   toggle("abc", "block");
