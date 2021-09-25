@@ -397,8 +397,8 @@ function removeActive(navElement) {
 }
 function displayAll() {
   removeActive(mathsSubjectTab);
-  removeActive(allSubjectTab);
-  makeActive(dsSubjectTab);
+  makeActive(allSubjectTab);
+  removeActive(dsSubjectTab);
   removeActive(htmlSubjectTab);
   removeActive(abcSubjectTab);
   toggle("maths", "block");
