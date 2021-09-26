@@ -85,7 +85,7 @@ async function saveMessage(messageText) {
   // Add a new message entry to the Firebase database.
   try {
     await addDoc(collection(getFirestore(), "attendance"), {
-      name: getUserName(),
+      name: messageText.name,
       text: messageText.subject,
       rollno: messageText.rollno,
       profilePicUrl: getProfilePicUrl(),
@@ -178,14 +178,18 @@ function onMessageFormSubmit(e) {
       subject:
         messageInputElement.options[messageInputElement.selectedIndex].value,
       rollno: rollnoInputElement.value,
+      name: studentName.value,
     };
+    console.log(formData);
     saveMessage(formData).then(function () {
       // Clear message text field and re-enable the SEND button.
       resetDropDownfield(messageInputElement);
       resetMaterialTextfield(rollnoInputElement);
+      resetMaterialTextfield(studentName);
 
       toggleButton();
     });
+    alert("Your attendance is captured succesfully!!");
   }
 }
 
@@ -243,7 +247,7 @@ function checkSignedInWithMessage() {
 // Resets the given MaterialTextField.
 function resetMaterialTextfield(element) {
   element.value = "";
-  element.parentNode.MaterialTextfield.boundUpdateClassesHandler();
+  // element.parentNode.MaterialTextfield.boundUpdateClassesHandler();
 }
 
 function resetDropDownfield(element) {
@@ -401,10 +405,13 @@ function displayAll() {
   removeActive(dsSubjectTab);
   removeActive(htmlSubjectTab);
   removeActive(abcSubjectTab);
+  removeActive(tocSubjectTab);
+
   toggle("maths", "block");
   toggle("datastructure", "block");
-  toggle("html", "block");
-  toggle("abc", "block");
+  toggle("sensors&transducers", "block");
+  toggle("python", "block");
+  toggle("toc", "block");
 }
 
 function displayMaths() {
@@ -413,11 +420,13 @@ function displayMaths() {
   removeActive(dsSubjectTab);
   removeActive(htmlSubjectTab);
   removeActive(abcSubjectTab);
+  removeActive(tocSubjectTab);
 
   toggle("datastructure", "none");
-  toggle("html", "none");
-  toggle("abc", "none");
+  toggle("sensors&transducers", "none");
+  toggle("python", "none");
   toggle("maths", "block");
+  toggle("toc", "none");
 }
 
 function displayds() {
@@ -427,16 +436,19 @@ function displayds() {
   makeActive(dsSubjectTab);
   removeActive(htmlSubjectTab);
   removeActive(abcSubjectTab);
+  removeActive(tocSubjectTab);
 
   toggle("datastructure", "block");
   toggle("maths", "none");
-  toggle("html", "none");
-  toggle("abc", "none");
+  toggle("sensors&transducers", "none");
+  toggle("python", "none");
+  toggle("toc", "none");
 }
 
 function displayhtml() {
   removeActive(mathsSubjectTab);
   removeActive(allSubjectTab);
+  removeActive(tocSubjectTab);
 
   removeActive(dsSubjectTab);
   makeActive(htmlSubjectTab);
@@ -444,13 +456,15 @@ function displayhtml() {
 
   toggle("maths", "none");
   toggle("datastructure", "none");
-  toggle("abc", "none");
-  toggle("html", "block");
+  toggle("python", "none");
+  toggle("sensors&transducers", "block");
+  toggle("toc", "none");
 }
 
 function displayabc() {
   removeActive(mathsSubjectTab);
   removeActive(allSubjectTab);
+  removeActive(tocSubjectTab);
 
   removeActive(dsSubjectTab);
   removeActive(htmlSubjectTab);
@@ -458,8 +472,25 @@ function displayabc() {
 
   toggle("maths", "none");
   toggle("datastructure", "none");
-  toggle("abc", "block");
-  toggle("html", "none");
+  toggle("python", "block");
+  toggle("sensors&transducers", "none");
+  toggle("toc", "none");
+}
+
+function displaytoc() {
+  removeActive(mathsSubjectTab);
+  removeActive(allSubjectTab);
+
+  removeActive(dsSubjectTab);
+  removeActive(htmlSubjectTab);
+  removeActive(abcSubjectTab);
+  makeActive(tocSubjectTab);
+
+  toggle("maths", "none");
+  toggle("datastructure", "none");
+  toggle("python", "none");
+  toggle("sensors&transducers", "none");
+  toggle("toc", "block");
 }
 
 // Shortcuts to DOM Elements.
@@ -469,6 +500,8 @@ var messageFormElement = document.getElementById("message-form");
 var messageInputElement = document.getElementById("message");
 var subjectInputElement = document.getElementById("subject");
 var rollnoInputElement = document.getElementById("rollno");
+var studentName = document.getElementById("studentName");
+
 var submitButtonElement = document.getElementById("submit");
 var imageButtonElement = document.getElementById("submitImage");
 var imageFormElement = document.getElementById("image-form");
@@ -484,14 +517,16 @@ if (getURL.indexOf("/attendance") > 0) {
   var allSubjectTab = document.getElementById("allsubjects");
   var mathsSubjectTab = document.getElementById("maths");
   var dsSubjectTab = document.getElementById("datastructure");
-  var htmlSubjectTab = document.getElementById("html");
-  var abcSubjectTab = document.getElementById("abc");
+  var htmlSubjectTab = document.getElementById("sensors&transducers");
+  var abcSubjectTab = document.getElementById("python");
+  var tocSubjectTab = document.getElementById("toc");
 
   allSubjectTab.addEventListener("click", displayAll);
   mathsSubjectTab.addEventListener("click", displayMaths);
   dsSubjectTab.addEventListener("click", displayds);
   htmlSubjectTab.addEventListener("click", displayhtml);
   abcSubjectTab.addEventListener("click", displayabc);
+  tocSubjectTab.addEventListener("click", displaytoc);
 }
 
 // Saves message on form submit.
