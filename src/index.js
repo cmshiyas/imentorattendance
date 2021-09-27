@@ -377,7 +377,7 @@ function displayMessage(id, timestamp, name, text, rollno, picUrl, imageUrl) {
 // Enables or disables the submit button depending on the values of the input
 // fields.
 function toggleButton() {
-  if (messageInputElement) {
+  if (studentName) {
     submitButtonElement.removeAttribute("disabled");
   } else {
     submitButtonElement.setAttribute("disabled", "true");
@@ -537,8 +537,8 @@ signOutButtonElement.addEventListener("click", signOutUser);
 signInButtonElement.addEventListener("click", signIn);
 
 // Toggle for the button.
-if (messageInputElement) {
-  messageInputElement.addEventListener("change", toggleButton);
+if (studentName) {
+  studentName.addEventListener("change", toggleButton);
 }
 
 // Events for image upload.
